@@ -4,6 +4,7 @@ import subprocess
 from datetime import datetime
 from sudoku import Sudoku
 
+os.environ['PATH'] = '/usr/local/bin:/usr/bin:/bin'
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
