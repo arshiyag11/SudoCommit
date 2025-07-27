@@ -31,9 +31,22 @@ def save_to_file(puzzle, solution, filename):
             file.write(" ".join(map(str, row)) + "\n")
 
 def git_commit(filename):
-    subprocess.run(['git', 'add', filename])
+    full_path = os.path.join(save_folder, filename)
+    result = subprocess.run(['git', 'add', full_path], capture_output=True, text=True)
+    if result.returncode != 0:
+        print("Git add failed:")
+        print(result.stderr)
+        return
+
     commit_message = f"NYT daily Sudoku: {datetime.today().date()}"
-    subprocess.run(['git', 'commit', '-m', commit_message])
+    result = subprocess.run(['git', 'commit', '-m', commit_message], capture_output=True, text=True)
+    if result.returncode == 0:
+        print("Changes committed successfully.")
+    else:
+        print("Git commit failed:")
+        print(result.stderr)
+
+
 
 def git_push():
     result = subprocess.run(['git', 'push'], capture_output=True, text=True)
